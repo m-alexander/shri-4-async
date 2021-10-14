@@ -19,15 +19,20 @@ module.exports = function (Homework) {
     const getLength = promisify(asyncArray.length);
     const getItem = promisify(asyncArray.get);
     const callback = promisify(fn);
+    const add = promisify(Homework.add);
+    const less = promisify(Homework.less);
 
     async function run() {
       const length = await getLength();
 
       let acc = initialValue;
-      for (let i = 0; i < length; i++) {
+      let i = 0;
+      while (await less(i, length)) {
         const curr = await getItem(i);
         acc = await callback(acc, curr, i, asyncArray);
+        i = await add(i, 1);
       }
+
       return cb ? cb(acc) : acc;
     }
 
