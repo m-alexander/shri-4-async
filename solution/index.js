@@ -13,7 +13,7 @@ module.exports = function (Homework) {
     }
 
     if (typeof fn !== 'function') {
-      throw new TypeError(fn + ' is not a function');
+      throw new TypeError('fn is not a function');
     }
 
     const getLength = promisify(asyncArray.length);
