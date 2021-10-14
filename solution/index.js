@@ -26,11 +26,10 @@ module.exports = function (Homework) {
       const length = await getLength();
 
       let acc = initialValue;
-      let i = 0;
-      while (await less(i, length)) {
+
+      for (let i = 0; await less(i, length); i = await add(i, 1)) {
         const curr = await getItem(i);
         acc = await callback(acc, curr, i, asyncArray);
-        i = await add(i, 1);
       }
 
       return cb ? cb(acc) : acc;
