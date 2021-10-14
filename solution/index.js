@@ -21,20 +21,26 @@ module.exports = function (Homework) {
     const callback = promisify(fn);
     const add = promisify(Homework.add);
     const less = promisify(Homework.less);
+    const equal = promisify(Homework.equal);
 
     async function run() {
       const length = await getLength();
 
-      let acc = initialValue;
+      if (await equal(length, 0)) {
+        return initialValue;
+      }
 
-      for (let i = 0; await less(i, length); i = await add(i, 1)) {
+      let acc = initialValue === undefined ? await getItem(0) : initialValue;
+      let i = initialValue === undefined ? 1 : 0;
+
+      for (; await less(i, length); i = await add(i, 1)) {
         const curr = await getItem(i);
         acc = await callback(acc, curr, i, asyncArray);
       }
 
-      return cb ? cb(acc) : acc;
+      return acc;
     }
 
-    return run();
+    run().then(cb);
   };
 };

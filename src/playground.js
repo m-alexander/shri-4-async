@@ -1,4 +1,5 @@
 require('./homework');
+const reduce = require('../solution')(Homework);
 
 const {
   AsyncArray,
@@ -63,30 +64,3 @@ const reducerSum = (acc, curr, i, src, cb) => Homework.add(acc, curr, cb);
 reduce(asyncArray, reducerSum, 0, (res) => {
   console.log('result is: ', res); // 10
 });
-
-function promisify(fn) {
-  return function (...args) {
-    return new Promise((resolve) => {
-      fn(...args, resolve);
-    });
-  };
-}
-
-function reduce(asyncArray, fn, initialValue, cb) {
-  const callback = promisify(fn);
-  const getItem = promisify(asyncArray.get);
-  const getLength = promisify(asyncArray.length);
-
-  async function run() {
-    const length = await getLength();
-
-    let acc = initialValue;
-    for (let i = 0; i < length; i++) {
-      const curr = await getItem(i);
-      acc = await callback(acc, curr, i, asyncArray);
-    }
-    return acc;
-  }
-
-  run().then(cb);
-}
