@@ -2,7 +2,7 @@
 
 Функцию reduce с использованием асинхронного API из объекта Homework
 
-## Get started
+## Getting Started
 
 Для использования функции reduce не нужно ничего устанавливать. Достаточно подключить файл `solution/index.js`
 
